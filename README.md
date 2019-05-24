@@ -1,2 +1,22 @@
-# mainnet-mapping
-Materials for main net mapping
+# 主网映射
+
+
+### 工作安排
+
+| 编号 | 事项 | 负责人 | 截止日期 | 状态 |
+| --- | --- | --- | --- | --- |
+| 1 | 确定主网映射方式 | 文煜，范师傅 | --- | 已完成 |
+| 2 | 准备映射说明、操作文档 | 运营 | --- | 进行中 |
+| 3 | 向交易所、社区、持有人通知进行映射 | 运营 | --- | --- |
+| 4 | 停止ERC20合约，中止转帐操作 | BOSS | --- | --- |
+| 5 | 读取ERC20合约中已经映射的地址、帐号、余额，进行校对 | 开发同学 | --- | --- |
+| 6 | 在主网上进行映射 | BOSS | --- | --- |
+
+
+### 工作列表
+1. UltrainOne app上需要明确的界面，引导用户进行映射。
+2. 在MyEtherWallet的合约列表中，注入UStoke的合约信息(地址和abi)。　=> 待议
+3. 获取到所有持币人的地址信息。（目前发现[https://ethplorer.io/](https://ethplorer.io/service/service.php?refresh=holders&data=0x8716Fc5Da009D3A208f0178b637a50F4ef42400F&page=tab%3Dtab-holders%26pageSize%3D100%26holders%3D1&showTx=all)可以抓取到所有的持币人地址和持币量信息）
+4. 获取到所有持币人的持币量信息。（可以调用balanceOf方法查询到某一地址的持币数量）
+5. 获取到持币人注册的映射帐号。(ustoke合约未发出任何Event，也没有提供api查询已经注册的帐号信息，保能通过getStorageAt的方式读取)
+6. 通过脚本、java应用的方式，在主网上进行转帐。
