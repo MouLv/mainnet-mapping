@@ -9,7 +9,7 @@
 
 function get_holder_list() {
     # return value, an array like:  { "address": "0x2c1d81e648774a6b45c1aa5ab53b56e90548654b", "balance": 5e+18, "share": 0 }
-    h=$(curl -X GET 'https://ethplorer.io/service/service.php?refresh=holders&data=0x8716Fc5Da009D3A208f0178b637a50F4ef42400F&page=tab%3Dtab-holders%26pageSize%3D1000%26holders%3D2&showTx=all' | jq '.holders')
+    h=$(curl -X GET 'https://ethplorer.io/service/service.php?refresh=holders&data=0x8716Fc5Da009D3A208f0178b637a50F4ef42400F&page=tab%3Dtab-holders%26pageSize%3D20%26holders%3D2&showTx=all' | jq '[.holders[] | {address: .address,balance: .balance}]')
     echo $h
     return $h
 }
@@ -22,7 +22,7 @@ function get_balance_of_holder() {
 }
 
 function get_registed_account() {
-    if [[ $1 == 0x* ]];
+    if [[ $1 == 0x* ]]; # 测试string是否start with某些字符
     then
         temp=$1
         ADDR=${temp:2}
