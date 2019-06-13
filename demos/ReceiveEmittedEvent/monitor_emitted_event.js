@@ -17,7 +17,7 @@ server = http.createServer(function (req, res) {
 });
 
 port = 3000;
-host = '127.0.0.1';
+host = '172.16.20.212';
 server.keepAliveTimeout = 0;
 server.timeout = 0;
 server.listen(port, host);
