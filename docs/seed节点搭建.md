@@ -5,6 +5,8 @@
 
 * 推荐使用超脑定制的ubuntu的iso镜像包或docker镜像安装（包含需要的依赖库）
 
+    * docker镜像下载地址：http://40.73.35.128:7656/download/docker/ultrain_ubuntu.tar（md5sum:15d3376660d2ef94f22683e367e0aa38）,导入方法：docker load < ultrain_ubuntu.tar
+
 * 自行安装保证系统版本为ubuntu(18.0)版本，安装如下依赖库： 需要安装**node.js(v8.10.0)和pm2（使用npm安装）,python,logrotate，curl等工具**
 
 #### 矿机依赖库安装命令（重要！！！）
