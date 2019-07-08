@@ -66,7 +66,7 @@ pm2 list
 
     417462734732788e7a1e3e291822017e
 
-#### mongo程序安装（mongo的程序和数据路径不建议修改，否则会导致管家进行一场恢复时找不到mongo相关的数据，重要！！！）
+#### mongo程序安装（mongo的程序和数据路径不建议修改，否则会导致进行异常恢复时找不到mongo相关的数据，重要！！！）
 
 * 拷贝mongo安装程序 mongo.tar 到用户自己根目录(~/)并解压
 ```text
@@ -152,7 +152,7 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
     
 md5sum： 
 
-   ec8029ec770b385b136522a9207ed9b73c06be57
+   2fd5772c4cb21e78d1522b624aa13fa1
 ```
 
 
@@ -219,31 +219,6 @@ pm2 restart sideChainService
 pm2 stop sideChainService
 ```
 
-### 数据drity手动处理方式
-
-#### 现象
-
-如果nod节点没有正常退出，如使用（kill -9)结束或者机器意外宕机，会造成本地数据dirty，无法启动，如下图所示：
-    
-![dirty.jpg](https://note.youdao.com/src/WEBRESOURCEf6f3fb6fefb31daa60175ab562a7f8c0)
-
-#### 处理方式
-
-* 1- 删除本地state目录下的文件
-
-```text
-rm ~/.local/share/ultrainio/nodultrain/data/state/* -rf
-```
-
-* 2- mongo节点清除mongo本地所有数据（如果是seed节点不需要）
-
-* 3- 通过世界状态文件进行重启nod文件（如果是mongo节点，此时会将本地块数据重新写到mongo中并保证mongo数据没有重复和遗漏！！！）
-
-```text
-先找到 mongo_setup 或 miner_setup中/files/ws/目录下的ws文件，然后通过如下命令启动即可：
-
-nohup ~/nodultrain --worldstate ~/mongo_setup/files/ws/99b1cef2acdf6c4bcbce64c6490a999b819c236b19e3cd7cd2c3accc71da30ef-655000.ws &>> ~/log/mongo.log &
-```
 
     
     

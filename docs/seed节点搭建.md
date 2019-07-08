@@ -93,7 +93,7 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
     
 md5sum： 
 
-   ec8029ec770b385b136522a9207ed9b73c06be57
+   2fd5772c4cb21e78d1522b624aa13fa1
 ```
 
 * 使用ws文件启动程序
