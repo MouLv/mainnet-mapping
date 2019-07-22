@@ -151,11 +151,11 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 
 下载地址
     
-   http://40.73.35.128:7656/download/miner_setup/ws/master-768000/start.ws
+   http://40.73.35.128:7656/download/miner_setup/ws/master-887000/start.ws
     
 md5sum： 
 
-   2fd5772c4cb21e78d1522b624aa13fa1
+   872aa262b24d773da922cfe54c4183ea
 ```
 
 
@@ -218,7 +218,7 @@ pm2 restart sideChainService
 ```
 
 * 关闭管家
-```test
+```text
 pm2 stop sideChainService
 ```
 
