@@ -1,0 +1,29 @@
+2019/7/20
+
+问题:
+1. 密钥生成及校验.md 示例代码中，使用的 config 对象从哪里来？
+2. “密钥生成及校验.md”中的“申请账号”示例：createUser 需要提供的参数 creator (创建人账号) 从哪里来？并且这个账号还需要有抵押资源，那么这个创建人账号和他名下的资源是如此从一片虚无之境中创造的？
+3. 基于问题 2，在 createUser 中，既然会使用 creator 的抵押资源，为什么不需要提供 creator 的私钥？如何不需要 creator 的私钥，岂不是任何人都可以使用 creator 的资源了？
+4. 构造离线交易以及离线交易签名，如果期望使用 SDK 在程序中实现，而不是使用 clultrain 这个现成工具的话，应该如何做？使用哪一个 SDK 项目？
+5. 基于问题 4，如何在创建的交易中加入 memo 信息（类似 EOS 的 memo）
+6. https://github.com/ultrain-os/mainnet-mapping/tree/master/docs 这里提到的 mongo 节点、seed 节点、矿机节点分别是起什么作用的？
+7. 基于问题 6，该目录下还有一文章标题为“节点接口使用说明”，请问标题这里以及正文中的“节点”是指问题 6 中的哪一个节点？
+8. 基于问题 6，在“mongo节点搭建.md”中提到了 MongoDB 的安装，但是其他地方并没有找到描述链上数据是如何写入到 MongoDB 中的，这一部分的资料应该去哪里看？
+
+答复:
+
+1. config是U3.js的配置文件. 使用方式可以参考: https://developer.ultrain.io/documents 中"开发工具"->"U3.js"章节.
+2. creattor需要是已经抵押了资源的账号. 它最初来源于Ultrain. 比如Ultrain将会为火币创建一个初始账号, 并抵押相应资源. 之后火币可以用这个初始账号去创建其它账号.
+3. 创建账号时, 需要creator签名.
+4. 使用SDK中sign方法, 可以签名一个交易. 参考文档: https://developer.ultrain.io/documents中 "U3 API"->"CHAIN"->"Sign"方法.
+5. 加入memo没有特殊的之处, transfer交易本身就有四个参数, 其中一个就是memo. 一个展示大概流程的伪代码如下:
+   const u3 = createU3({ keyProvider });
+   const c = await u3.contract("utrio.token");
+   const tr = await c.transfer(account1, account2, "1.0000 UGAS", "This is memo string");
+
+   这段代码来源于: https://github.com/ultrain-os/u3.js/blob/master/test/index.test.js  Line228, 可供参考.
+6. mongo节点是会引入一个history_plugin, 用来记录链上的交易信息到mongo数据库中.
+   Seed节点是网络中用来接受交易的节点, 它用来过滤合法交易, 并将交易广播到链上其它节点.
+   矿机节点就是普通的挖矿节点.
+7. 可以理解为Seed节点.
+8. 链上数据会通过一个插件写入到mongo数据库中. 目前我们代码没有开源, 无法提供给你们参考. 尽管我们有优化相关逻辑, 但是如果想了解的话, 可以参考EOS中的history_plugin相关实现.
