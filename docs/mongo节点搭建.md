@@ -113,11 +113,11 @@ killall mongod
 
 * 下载地址
     
-    http://40.73.35.128:7656/download/miner_setup/20190708/miner_setup.tar
+    http://40.73.35.128:7656/download/miner_setup/20190801/miner_setup.tar
     
 * md5sum： 
 
-    34fa17b6fcea4a7c2c36035e03f7b34d
+    e70df0e515ede994d7eff8518006327a
 
 
 ### 矿机程序安装运行
