@@ -92,11 +92,11 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 
 下载地址
     
-   http://40.73.35.128:7656/download/miner_setup/ws/master-983000/start.ws
+   http://40.73.35.128:7656/download/miner_setup/ws/master-1007000/start.ws
     
 md5sum： 
 
-   b5efe307a2ed0595aecae54a4e5ddb71
+   0a1fe11f9d5feec2c63fe7ec4d53692d
 ```
 
 * 使用ws文件启动程序
