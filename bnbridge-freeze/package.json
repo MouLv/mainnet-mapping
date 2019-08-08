@@ -1,0 +1,50 @@
+{
+  "name": "bnbridge-freeze",
+  "version": "1.0.0",
+  "description": "bnbridge freeze",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+git@github.com:ultrain-os/mainnet-mapping.git"
+  },
+  "author": "enpenguc@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ultrain-os/mainnet-mapping/issues"
+  },
+  "homepage": "https://github.com/ultrain-os/mainnet-mapping#readme",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .js --format './node_modules/eslint-friendly-formatter' ./",
+    "lint:fix": "eslint --fix --ext .js --format './node_modules/eslint-friendly-formatter' ./",
+    "prettier": "prettier --write ./src/**/*.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.2",
+    "lint-staged": "^9.2.1",
+    "prettier": "^1.18.2"
+  }
+}
