@@ -56,11 +56,11 @@ pm2 list
 
 * 下载地址
     
-    http://40.73.35.128:7656/download/miner_setup/20190708/miner_setup.tar
+    http://40.73.35.128:7656/download/miner_setup/20190801/miner_setup.tar
     
 * md5sum： 
 
-    34fa17b6fcea4a7c2c36035e03f7b34d
+    e70df0e515ede994d7eff8518006327a
     
 
 ### 矿机程序安装运行
@@ -92,11 +92,11 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 
 下载地址
     
-   http://40.73.35.128:7656/download/miner_setup/ws/master-887000/start.ws
+   http://40.73.35.128:7656/download/miner_setup/ws/master-1007000/start.ws
     
 md5sum： 
 
-   872aa262b24d773da922cfe54c4183ea
+   0a1fe11f9d5feec2c63fe7ec4d53692d
 ```
 
 * 使用ws文件启动程序

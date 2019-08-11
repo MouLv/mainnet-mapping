@@ -1,0 +1,14 @@
+# 
+# prettier配置
+# 详细见：https://prettier.io/docs/en/options.html
+# 
+# 单引号
+singleQuote: true
+# 尾随逗号
+trailingComma: all
+# 一行最大100字符
+printWidth: 100
+# 分号
+semi: true
+# tab两字符
+tabWidth: 2
