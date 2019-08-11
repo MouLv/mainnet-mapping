@@ -1,55 +1,47 @@
-'use strict'
+'use strict';
 
-var Crawler = require("js-crawler");
+const rp = require('request-promise');
+const child_process = require("child_process");
+const ugas = require('./ustoke');
 
-var holder_urls = [];
-for (let i = 1; i <= 2; i++) {
-    holder_urls.push(`https://ethplorer.io/service/service.php?data=0x8716fc5da009d3a208f0178b637a50f4ef42400f&page=tab%3Dtab-holders%26pageSize%3D3000%26holders%3D${i}&showTx=all`);
+let pages = [];
+for (let i = 1; i <= 6; i++) {
+    let page = `pageSize=1000&tab=tab-holders&holders=${i}`;
+    let option = {
+        uri: 'https://ethplorer.io/service/service.php?',
+        qs: {
+            refresh: 'holders',
+            data: '0x8716Fc5Da009D3A208f0178b637a50F4ef42400F',
+            page: page,
+            showTx: 'all'
+        },
+        headers: {
+        },
+        json: true // Automatically parses the JSON string in the response
+    };
+    pages.push(option);
 }
 
-var current_url_index = 0;
-var holders = {};
-
-function handle_holder_page(page) {
-    var body = page.body;
-    var rsp = JSON.parse(body);
-    rsp.holders.forEach((hold) => {
-        holders[hold.address] = hold.balance;
-    });
-    console.log(`----------current holder: ${Object.keys(holders).length} -------`);
-    current_url_index++;
-
-    // if (current_url_index < holder_urls.length ) {
-    //     crawl_url(holder_urls[current_url_index]);
-    // } else {
-    //     save_holder_list();
-    // }
-    if (current_url_index >= holder_urls.length) {
-        save_holder_list();
+async function get_all_holders() {
+    let all_holders = [];
+    for (let page of pages) {
+        console.log("handle url: ", page.qs.page);
+        let rsp = await rp(page);
+        let holders = rsp.holders;
+        all_holders = all_holders.concat(holders);
+        child_process.execSync('sleep 1');
     }
+
+    return all_holders;
 }
 
-function crawl_url(url) {
-    let crawler = new Crawler().configure({
-        depth: 2,
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
-        maxConcurrentRequests: 1,
-        maxRequestsPerSecond: 1,
-        shouldCrawl: (url) => { return true; },
-        shouldCrawlLinksFrom: (url) => { return false; }
-    });
-    crawler.crawl(url, handle_holder_page);
-}
+get_all_holders().then((holders) => {
+    let f = {
+        total: holders.length,
+        holders: holders
+    };
 
-function save_holder_list() {
-    console.log(" save to file. ");
-}
-
-for (let i = 0; i < holder_urls.length; ++i) {
-    crawl_url(holder_urls[i]);
-}
-
-// 从这里可以拿到所有的列表：
-// https://ethplorer.io/address/0x8716fc5da009d3a208f0178b637a50f4ef42400f?from=search#tab=tab-holders&pageSize=100&holders=56
-//
-// crawler.crawl("https://ethplorer.io/address/0x8716fc5da009d3a208f0178b637a50f4ef42400f?from=search#tab=tab-holders&pageSize=100&holders=56", function (page) {
+    ugas.saveFile('fetch-holders', f);
+}).catch((err) => {
+    console.log(`Get all token hodlers failed for: ${err}`);
+} )

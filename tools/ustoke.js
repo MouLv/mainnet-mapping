@@ -434,36 +434,37 @@ let kUstokeAbi = [
  *
  */
 const Web3 = require('web3');
+const fs = require('fs');
 
 const web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/c7897e2345214cc980c0284b6a519fc2")); // infura项目地址
-web3.eth.defaultAccount = '0x3ee93E9180aAc9404BCe14444c18894bA4046C7C';
+// web3.eth.defaultAccount = '0x3ee93E9180aAc9404BCe14444c18894bA4046C7C';
 
 const kUstokeAddress = '0x8716fc5da009d3a208f0178b637a50f4ef42400f'; // ustoke deployed address
 const kRegistedKeysIndex = '9';
 
-let holder = '0xa45191c69a02b4291e5a2fdb37011091013ea9a0';
+// let holder = '0xa45191c69a02b4291e5a2fdb37011091013ea9a0';
 // const MY_WALLET = '0x3ee93E9180aAc9404BCe14444c18894bA4046C7C';
 
-var tokenName = web3.eth.getStorageAt(kUstokeAddress, 4);
-    console.log("tokenName: " + web3.toAscii(tokenName));
+// var tokenName = web3.eth.getStorageAt(kUstokeAddress, 4);
+//     console.log("tokenName: " + web3.toAscii(tokenName));
 
-var tokenSymbol = web3.eth.getStorageAt(kUstokeAddress, 5);
-    console.log("tokenSymbol: " + web3.toAscii(tokenSymbol));
+// var tokenSymbol = web3.eth.getStorageAt(kUstokeAddress, 5);
+//     console.log("tokenSymbol: " + web3.toAscii(tokenSymbol));
 
-var decimal = web3.eth.getStorageAt(kUstokeAddress, 6);
-    console.log("decimal: " + web3.toDecimal(decimal));
+// var decimal = web3.eth.getStorageAt(kUstokeAddress, 6);
+//     console.log("decimal: " + web3.toDecimal(decimal));
 
-var initialSupply = web3.eth.getStorageAt(kUstokeAddress, 7);
-    console.log("InitialSupply: " + web3.toBigNumber(initialSupply));
+// var initialSupply = web3.eth.getStorageAt(kUstokeAddress, 7);
+//     console.log("InitialSupply: " + web3.toBigNumber(initialSupply));
 
-var miningServer = web3.eth.getStorageAt(kUstokeAddress, 8);
-    console.log("MiningServer: " + web3.toBigNumber(miningServer));
+// var miningServer = web3.eth.getStorageAt(kUstokeAddress, 8);
+//     console.log("MiningServer: " + web3.toBigNumber(miningServer));
 
-var closed = web3.eth.getStorageAt(kUstokeAddress, 10);
-    console.log("closed: " + web3.toDecimal(closed));
+// var closed = web3.eth.getStorageAt(kUstokeAddress, 10);
+//     console.log("closed: " + web3.toDecimal(closed));
 
-getRegistedKeys("0x51413B31f87e88bf4e6577D69f213c8cCcc79Da4");
-queryBalance("0x51413B31f87e88bf4e6577D69f213c8cCcc79Da4");
+// getRegistedKeys("0x51413B31f87e88bf4e6577D69f213c8cCcc79Da4");
+// queryBalance("0x51413B31f87e88bf4e6577D69f213c8cCcc79Da4");
 
 function getRegistedKeys(addr) {
     let index = kRegistedKeysIndex.padStart(64, '0');
@@ -476,8 +477,8 @@ function getRegistedKeys(addr) {
     let newKey = web3.sha3(key, { "encoding": "hex" });
 
     var bytecode = web3.eth.getStorageAt(kUstokeAddress, newKey);
-    console.log("keys: " + web3.toAscii(bytecode));
-
+    // console.log("keys: " + web3.toAscii(bytecode));
+    return web3.toUtf8(bytecode);
 }
 
 function queryBalance(holder) {
@@ -485,5 +486,28 @@ function queryBalance(holder) {
     var contractInstance = contract.at(kUstokeAddress);
     var bal = contractInstance.balanceOf(holder);
 
-    console.log("balance: " + web3.toBigNumber(bal));
+    // console.log("balance: " + web3.toBigNumber(bal));
+    return web3.toBigNumber(bal);
 }
+
+function isContractAddress(addr) {
+    var code = web3.eth.getCode(addr)
+    // console.log("isContractAddress: ", code);
+    return code !== '0x';
+}
+
+function isValidAddress(addr) {
+    return web3.isAddress(addr);
+}
+
+function saveFile(fn_prefix, data) {
+    // let dt = new Date().toISOString().slice(0,10);
+    // let fname = `${fn_prefix}-${dt}.json`;
+    let fname = `${fn_prefix}.json`;
+
+    if (fs.existsSync(fname)) { fs.unlinkSync(fname); }
+
+    fs.writeFileSync(fname, JSON.stringify(data, null, 2));
+}
+
+module.exports = { getRegistedKeys, queryBalance, isContractAddress, isValidAddress, saveFile };
