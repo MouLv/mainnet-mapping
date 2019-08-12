@@ -7,7 +7,7 @@
 4. 在ultrian主链上, 将balance转入register的ultrain账号.  
 
 ## Dependencies
-1. web2@0.20.1      # 如果已经安装其它版本的web3, 请先`npm -g uninstall web3`删除, 再`npm install -g web3@0.20.1`  
+1. web3@0.20.1      # 如果已经安装其它版本的web3, 请先`npm -g uninstall web3`删除, 再`npm install -g web3@0.20.1`  
 2. request-promise    # npm install -g request-promise
 
 ### fetch_holders.js
