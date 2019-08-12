@@ -8,7 +8,8 @@
 
 ## Dependencies
 1. web3@0.20.1      # 如果已经安装其它版本的web3, 请先`npm -g uninstall web3`删除, 再`npm install -g web3@0.20.1`  
-2. request-promise    # npm install -g request-promise
+2. request
+3. request-promise    # npm install -g request-promise
 
 ### fetch_holders.js
 这个文件来用获取所有的持币账号.  
