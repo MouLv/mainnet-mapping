@@ -1,7 +1,7 @@
 ## 外部seed节点搭建
 
 
-### 矿机系统安装
+### 1. 矿机系统安装
 
 * 推荐使用超脑定制的ubuntu的iso镜像包或docker镜像安装（包含需要的依赖库）
 
@@ -10,7 +10,9 @@
 
 * 自行安装保证系统版本为ubuntu(18.0)版本，安装如下依赖库： 需要安装**node.js(v8.10.0)和pm2（使用npm安装）,python,logrotate，curl等工具**
 
-#### 矿机依赖库安装命令（重要！！！）
+#### 1.1 矿机依赖库安装命令（重要！！！）
+
+**如果使用ultrain提供的docker启动，可以直接跳到步骤2**
 
 ```text
 
@@ -52,7 +54,7 @@ npm install -g pm2
 pm2 list
 ```
 
-### 安装程序(miner_setup.tar)下载
+### 2. 安装程序(miner_setup.tar)下载
 
 * 下载地址
     
@@ -63,7 +65,8 @@ pm2 list
     6ac9b414ea1846be8631d06c3ec0d454
     
 
-### 矿机程序安装运行
+### 3.矿机程序安装运行
+
 * 拷贝矿机程序 miner_setup.tar 到用户自己根目录(~/)下并解压
 ```text
 cd ~/
@@ -75,7 +78,7 @@ chmod +x ~/miner_setup/install.sh
 ~/miner_setup/install.sh
 ```
 
-* 拷贝矿机专属的配置文件（config.ini)到配置文件目录（该文件中包含隐私信息，请联系对接技术人员获取）
+* 拷贝矿机专属的配置文件（config.ini)到配置文件目录（该文件中包含隐私信息，请联系对接技术人员获取）（重要！！！重要！！！）
 
 ```text
 将配置文件拷贝到目标目录
@@ -86,7 +89,7 @@ cp /tmp/config.ini /root/.local/share/ultrainio/nodultrain/config/config.ini
 cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 ```
 
-* 下载世界状态文件到/tmp目录并进行重启
+* 下载最新的世界状态文件(快照文件）到/tmp目录并进行重启
 
 ```text
 
@@ -99,13 +102,13 @@ md5sum：
    839b969e961fb96ce1ce03042490b76e
 ```
 
-* 使用ws文件启动程序
+* 使用世界状态文件（快照）进行程序启动
 
 ```text
 关闭程序（确保程序已关闭）
 killall nodultrain
 
-清除本地数据
+清除本地的块数据
 rm ~/.local/share/ultrainio/nodultrain/data -rf
 
 假设start.ws已确认下载到/tmp目录
@@ -125,14 +128,17 @@ curl 127.0.0.1:8888/v1/chain/get_chain_info
 tail -f /log/nod_start.log
 ```
 
-* 启动管家程序（负责日志清理，异常宕机后自动恢复等功能）
+* 启动管家程序（负责日志清理，异常宕机后使用快照进行节点自动恢复等功能）
 
+```text
 pm2 start ~/ultrainmng/src/sideChainService.js && pm2 save && sleep 1 && pm2 startup && sleep 1 && pm2 save 
+```
 
 
-## 矿机简单运维操作
 
-### 安全重启矿机
+## 3. 矿机简单运维操作
+
+### 3.1 安全重启矿机
 
 * 先关闭nod进程（切勿用kill -9 强制关闭）
 ```text
@@ -144,7 +150,7 @@ killall nodultrain
 ~/runultrain-h.sh
 ```
 
-### 管家相关
+### 3.2 管家相关
 
 * 启动管家
 
@@ -163,25 +169,50 @@ pm2 restart sideChainService
 pm2 stop sideChainService
 ```
     
-### 管家相关
+### 3.3 使用快照重启nodultrain（当正常启动nodultrain出现database dirty的情况）
 
-* 启动管家
-
-```text
-pm2 start ~/ultrainmng/src/sideChainService.js
-```
-
-* 重启管家
-```text
-pm2 restart sideChainService
-```
-
-* 关闭管家
-
-```text
-pm2 stop sideChainService
-```
+* 检查本地最大的块高X（如果本地还有块高）
     
+    * 检查快照程序（wssultrain）是否在运行中(ps aux | grep wssultrain)
+    * 如果快照程序（wssultrain）未启动，使用如下命令进行启动
+        ```text
+        nohup ~/wssultrain  &>> /log/wss.log &
+        ```
+    * 启动成功后，使用本地API请求获取最大块高
+        ```text
+        curl 127.0.0.1:7777/v1/wss/get_local_block_info
+        ```
+    * 拿到返回结果json数据(解析出block_height即可，block_height为本地最大的块高X)
+        ```json
+         {"block_height":1077558,"first_block_height":1,"msg":""}
+        ```
+
+
+* 删除本地内存数据库的数据（使用快照启动必须删除）
+
+```text
+rm ~/.local/share/ultrainio/nodultrain/data/state/ -rf
+```
+
+* 找到一个小于X的最近的一个世界状态（快照）文件
+
+    * 本地快照目录(~/.local/share/ultrainio/wssultrain/data/worldstate/)
+    * 目录下使用（ls -ltrt | grep ws)按时间顺序显示所有文件（只需要找.ws结尾的即可）
+    * 快照文件名中已经包含了快照对应的块高信息，如下所示（1077000块高的块找）：
+        ```text
+        99b1cef2acdf6c4bcbce64c6490a999b819c236b19e3cd7cd2c3accc71da30ef-1077000.ws
+        ```
+
+* 使用快照文件启动nod
+
+    * 启动命令如下(--worldstate 参数后跟上快照文件的路径 ，--truncate-at-block 跟上本地最大的块高X） ：
+    ```text
+    nohup ~/nodultrain --worldstate /tmp/99b1cef2acdf6c4bcbce64c6490a999b819c236b19e3cd7cd2c3accc71da30ef-1077000.ws --truncate-at-block 1077558   &>> /log/nodstart.log  &
+    ```    
+
+
+
+
 
 
 
