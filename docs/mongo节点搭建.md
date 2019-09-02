@@ -151,11 +151,12 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 
 下载地址
     
-   http://40.73.35.128:7656/download/miner_setup/ws/master-1068000/start.ws
+   http://40.73.35.128:7656/download/miner_setup/ws/master-1251000/start.ws
     
 md5sum： 
 
-   839b969e961fb96ce1ce03042490b76e
+   58fe341fb7ffe1c14e9ccbc007f62725
+```
 ```
 
 
