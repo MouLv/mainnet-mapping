@@ -62,7 +62,7 @@ pm2 list
     
 * md5sum： 
 
-    78fdf9b814ec8d66780df6a5dce156ff
+    c7034c3ef850564a803bce23a8d1c3ca
     
 
 ### 3.矿机程序安装运行
