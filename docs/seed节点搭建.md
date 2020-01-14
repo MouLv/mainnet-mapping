@@ -62,7 +62,7 @@ pm2 list
     
 * md5sum： 
 
-    d354d34c22be850cc90ecec4a830855f
+    9140974d363c4f321e91af2ea3834f5a
     
 
 ### 3.矿机程序安装运行
@@ -89,7 +89,7 @@ cp /tmp/config.ini /root/.local/share/ultrainio/nodultrain/config/config.ini
 cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 ```
 
-* 下载最新的世界状态文件(快照文件）到/tmp目录并进行重启
+* 下载最新的世界状态文件(快照文件）到/tmp目录并进行重启(该世界状态是主链世界状态，请询问对接技术人员所要连接的侧链或主链，以提供对应链最新的世界状态下载地址)（重要！！！重要！！！）
 
 ```text
 
