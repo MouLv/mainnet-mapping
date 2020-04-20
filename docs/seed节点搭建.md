@@ -6,7 +6,17 @@
 * 推荐使用超脑定制的ubuntu的iso镜像包或docker镜像安装（包含需要的依赖库）
 
     * docker镜像下载地址：http://40.73.35.128:7656/download/docker/ultrain_ubuntu_prod.tar
-    （md5sum:ea821124ef4483bf3e4fdd32acbe90bb）,导入方法：docker load < ultrain_ubuntu_prod.tar
+    （md5sum:ea821124ef4483bf3e4fdd32acbe90bb）,导入方法步骤：
+```
+//导入docker镜像
+docker load < ultrain_ubuntu_prod.tar
+
+//生成docker命令 ultrain_docker为docker名字
+docker run -itd --name ultrain_docker   ultrain/ubuntu_prod
+
+//进入docker
+docker exec -it  ultrain_docker    bash
+```
 
 * 自行安装保证系统版本为ubuntu(18.0)版本，安装如下依赖库： 需要安装**node.js(v8.10.0)和pm2（使用npm安装）,python,logrotate，curl等工具**
 
@@ -133,8 +143,9 @@ tail -f /log/nod_start.log
 ```text
 pm2 start ~/ultrainmng/src/sideChainService.js && pm2 save && sleep 1 && pm2 startup && sleep 1 && pm2 save 
 ```
+至此结束。
 
-
+注意: ==如果是docker退出时千万不要执行exit,该命令会导致docker关闭，正确退出方式是 Ctrl + p + q==
 
 ## 3. 矿机简单运维操作
 
