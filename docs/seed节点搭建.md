@@ -58,11 +58,11 @@ pm2 list
 
 * 下载地址
     
-    http://40.73.35.128:7656/download/miner_setup/20200107/miner_setup.tar
+    wget http://40.73.35.128:7656/download/miner_setup/20200304/miner_setup.tar
     
-* md5sum： 
+* sha1sum： 
 
-    9140974d363c4f321e91af2ea3834f5a
+    6e7551e45ecd0fa3ac638f0322330b5bbed8ebd1
     
 
 ### 3.矿机程序安装运行
