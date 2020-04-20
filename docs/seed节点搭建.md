@@ -95,11 +95,11 @@ cat /root/.local/share/ultrainio/nodultrain/config/config.ini
 
 下载地址
     
-   http://40.73.35.128:7656/download/miner_setup/ws/master-1251000/start.ws
+   wget http://40.73.35.128:7656/download/miner_setup/ws/master-3247000/start.ws
     
-md5sum： 
+sha1sum： 
 
-   58fe341fb7ffe1c14e9ccbc007f62725
+   fae6e3946aebe33f1e030c54b12a41adfa1d5e52
 ```
 
 * 使用世界状态文件（快照）进行程序启动
